@@ -1,0 +1,71 @@
+[gd_scene load_steps=11 format=3 uid="uid://1dt554k3266r"]
+
+[ext_resource type="Shader" uid="uid://cxcso2ffor0cf" path="res://board/cell.gdshader" id="1_0q50x"]
+[ext_resource type="Script" uid="uid://cbkb00o0r5ihv" path="res://board/cell.gd" id="1_wvpck"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5qsiq"]
+resource_local_to_scene = true
+shader = ExtResource("1_0q50x")
+shader_parameter/mouse_position = Vector2(0, 0)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_ig7tw"]
+load_path = "res://.godot/imported/röj.png-c61db6f62eb77acff15460edddc55d01.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h2yge"]
+atlas = SubResource("CompressedTexture2D_ig7tw")
+region = Rect2(0, 0, 9, 9)
+margin = Rect2(0.5, 0.5, 1, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_1bvp3"]
+load_path = "res://.godot/imported/röj.png-c61db6f62eb77acff15460edddc55d01.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lquwl"]
+atlas = SubResource("CompressedTexture2D_1bvp3")
+region = Rect2(18, 0, 9, 9)
+margin = Rect2(0.5, 0.5, 1, 1)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_6q1sh"]
+load_path = "res://.godot/imported/röj.png-c61db6f62eb77acff15460edddc55d01.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0q50x"]
+resource_local_to_scene = true
+atlas = SubResource("CompressedTexture2D_6q1sh")
+region = Rect2(0, 32, 5, 5)
+margin = Rect2(2.5, 2.5, 5, 5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0q50x"]
+size = Vector2(10, 10)
+
+[node name="CellBig" type="Node2D"]
+script = ExtResource("1_wvpck")
+
+[node name="Button" type="TextureButton" parent="."]
+texture_filter = 1
+material = SubResource("ShaderMaterial_5qsiq")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+mouse_filter = 1
+toggle_mode = true
+button_mask = 0
+texture_normal = SubResource("AtlasTexture_h2yge")
+texture_pressed = SubResource("AtlasTexture_lquwl")
+
+[node name="Number" type="Sprite2D" parent="Button"]
+visible = false
+use_parent_material = true
+texture = SubResource("AtlasTexture_0q50x")
+centered = false
+region_rect = Rect2(0, 32, 5, 5)
+region_filter_clip_enabled = true
+
+[node name="MouseArea" type="Area2D" parent="."]
+position = Vector2(-5, -5)
+priority = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseArea"]
+position = Vector2(5, 5)
+shape = SubResource("RectangleShape2D_0q50x")

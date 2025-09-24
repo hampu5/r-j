@@ -1,0 +1,101 @@
+[gd_scene load_steps=14 format=3 uid="uid://bx6wx45flivbi"]
+
+[ext_resource type="Script" uid="uid://dwt8hxayg1qwu" path="res://main.gd" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://m7gyqol76yhf" path="res://board/board.tscn" id="1_ig7tw"]
+[ext_resource type="Texture2D" uid="uid://cn0y1clmpohre" path="res://röj.png" id="3_5vw27"]
+[ext_resource type="Shader" uid="uid://c7fyl3xtjl828" path="res://background.gdshader" id="3_h2yge"]
+[ext_resource type="Script" uid="uid://dqbrlmoub6yco" path="res://background.gd" id="4_1bvp3"]
+[ext_resource type="Shader" uid="uid://c04u5xjsuuk15" path="res://color_map.gdshader" id="5_lquwl"]
+[ext_resource type="Texture2D" uid="uid://b0xjp7aevkowb" path="res://palette.png" id="6_7mycd"]
+[ext_resource type="Shader" uid="uid://cojtma42f1ph7" path="res://color_settings.gdshader" id="7_272bh"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_1bvp3"]
+noise_type = 0
+frequency = 0.002
+fractal_type = 3
+fractal_octaves = 1
+fractal_lacunarity = 0.76
+fractal_gain = -2.08
+fractal_ping_pong_strength = -1.735
+domain_warp_amplitude = 33.46
+domain_warp_fractal_octaves = 10
+domain_warp_fractal_lacunarity = 6.98
+domain_warp_fractal_gain = 0.055
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_lquwl"]
+width = 2048
+height = 2048
+seamless = true
+noise = SubResource("FastNoiseLite_1bvp3")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_7mycd"]
+shader = ExtResource("3_h2yge")
+shader_parameter/noise = SubResource("NoiseTexture2D_lquwl")
+shader_parameter/scroll_speed = 0.0
+shader_parameter/col1 = Color(0.686672, 0.780478, 0.974748, 1)
+shader_parameter/col2 = Color(0.0362213, 0.182412, 0.20507, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_272bh"]
+shader = ExtResource("5_lquwl")
+shader_parameter/palette = ExtResource("6_7mycd")
+shader_parameter/palette_size = 25
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5vw27"]
+shader = ExtResource("7_272bh")
+shader_parameter/brightness = 0.2
+shader_parameter/contrast = 1.0
+shader_parameter/saturation = 0.8
+shader_parameter/redVal = 1.0
+shader_parameter/greenVal = 1.0
+shader_parameter/blueVal = 1.0
+shader_parameter/tint_color = Color(1, 1, 1, 1)
+shader_parameter/tint_effect_factor = 0.0
+
+[node name="Main" type="Node2D"]
+texture_filter = 1
+script = ExtResource("1_0xm2m")
+
+[node name="Board" parent="." instance=ExtResource("1_ig7tw")]
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+z_index = 1
+offset_left = 11.0
+offset_top = 12.0
+offset_right = 83.0
+offset_bottom = 167.0
+texture = ExtResource("3_5vw27")
+region_rect = Rect2(27, 4, 5, 5)
+patch_margin_left = 3
+patch_margin_top = 3
+patch_margin_right = 3
+patch_margin_bottom = 3
+
+[node name="Background" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_7mycd")
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -40.0
+offset_top = -100.0
+offset_right = 360.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(200, 200)
+mouse_filter = 2
+script = ExtResource("4_1bvp3")
+
+[node name="ColorMap" type="ColorRect" parent="."]
+visible = false
+material = SubResource("ShaderMaterial_272bh")
+offset_right = 320.0
+offset_bottom = 180.0
+mouse_filter = 2
+
+[node name="ColorSettings" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_5vw27")
+offset_right = 320.0
+offset_bottom = 180.0
+mouse_filter = 2

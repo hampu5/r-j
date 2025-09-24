@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cc3ayadoaxccn"]
+
+[ext_resource type="Texture2D" uid="uid://cn0y1clmpohre" path="res://röj.png" id="1_yh0nt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0xm2m"]
+atlas = ExtResource("1_yh0nt")
+region = Rect2(0, 11, 5, 5)
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_h2yge"]
+load_path = "res://.godot/imported/röj.png-c61db6f62eb77acff15460edddc55d01.ctex"
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1bvp3"]
+atlas = SubResource("CompressedTexture2D_h2yge")
+region = Rect2(5, 11, 5, 5)
+
+[node name="Cell" type="TextureButton"]
+texture_filter = 1
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 3.0
+offset_bottom = 3.0
+focus_mode = 0
+toggle_mode = true
+button_mask = 3
+texture_normal = SubResource("AtlasTexture_0xm2m")
+texture_pressed = SubResource("AtlasTexture_1bvp3")
