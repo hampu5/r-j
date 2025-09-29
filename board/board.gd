@@ -93,7 +93,7 @@ func _ready() -> void:
 			cell.owner = self
 			cell.x = x
 			cell.y = y
-			cell.position = Vector2i((cell.button.size.x + 0) * (x - width / 2), (cell.button.size.y + 0) * (y - height / 2))
+			cell.position = Vector2i((10.0 + 0) * (x - width / 2), (10.0 + 0) * (y - height / 2))
 			cell.cell_left_clicked.connect(_on_cell_left_clicked)
 			cell.cell_right_clicked.connect(_on_cell_right_clicked)
 			board_instance[x].append(cell)

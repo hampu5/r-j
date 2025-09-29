@@ -1,10 +1,8 @@
-extends Node2D
-class_name Cell
+class_name Cell extends Area2D
 
 
-@onready var button: TextureButton = $Button
-@onready var number_sprite: Sprite2D = $Button/Number
-@onready var mouse_area: Area2D = $MouseArea
+@onready var button: MyButton = $MyButton
+@onready var number_sprite: Sprite2D = $Number
 
 var x: int
 var y: int
@@ -30,69 +28,7 @@ static func is_not_flipped_and_is_not_flagged(cell: Cell):
 
 
 func _ready():
-	mouse_area.input_event.connect(_on_input_event)
-	button.mouse_entered.connect(_on_mouse_entered)
-	button.mouse_exited.connect(_on_mouse_exited)
+	button.clicked.connect(_on_clicked)
 
-func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if not (is_flipped and (left_mouse_down or right_mouse_down)) and mouse_inside and event is InputEventMouseMotion:
-		var local_pos = event.global_position - button.global_position
-		button.material.set_shader_parameter("mouse_position", local_pos)
-	elif Input.is_action_just_pressed("mouse_left"):
-		_on_left_button_down()
-	elif Input.is_action_just_pressed("mouse_right"):
-		_on_right_button_down()
-
-func _unhandled_input(event: InputEvent) -> void:
-	if Input.is_action_just_released("mouse_left"):
-		_on_left_mouse_up()
-	if Input.is_action_just_released("mouse_right"):
-		_on_right_mouse_up()
-
-func _on_left_button_down():
-	left_mouse_down = true
-	if is_flagged:
-		return
-	button.set_pressed_no_signal(true)
-	if is_flipped:
-		button.material.set_shader_parameter("mouse_position", Vector2.ZERO)
-		button.scale *= 0.9
-
-func _on_left_mouse_up():
-	left_mouse_down = false
-	button.scale = Vector2.ONE
-	if mouse_inside:
-		cell_left_clicked.emit(self)
-
-func _on_right_button_down():
-	right_mouse_down = true
-	if not is_flipped:
-		#material.set_shader_parameter("mouse_position", Vector2.ZERO)
-		button.scale *= 0.9
-
-func _on_right_mouse_up():
-	right_mouse_down = false
-	button.scale = Vector2.ONE
-	if mouse_inside:
-		cell_right_clicked.emit(self)
-
-func _on_mouse_entered():
-	mouse_inside = true
-	z_index = 5
-	if left_mouse_down:
-		if is_flipped:
-			button.scale *= 0.9
-		if not is_flagged:
-			button.set_pressed_no_signal(true)
-	if right_mouse_down:
-		if not is_flipped:
-			button.scale *= 0.9
-		
-
-func _on_mouse_exited():
-	mouse_inside = false
-	z_index = 0
-	if not is_flipped:
-		button.set_pressed_no_signal(false)
-	button.material.set_shader_parameter("mouse_position", Vector2.ZERO)
-	button.scale = Vector2.ONE
+func _on_clicked() -> void:
+	button.disabled = true
